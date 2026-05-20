@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import axios from 'axios';
 import { ShieldAlert, ShieldCheck, UserCheck, XCircle, Scan, Fingerprint, Camera } from 'lucide-react';
@@ -41,6 +41,16 @@ function App() {
     setError(null);
     setIsScanning(true);
   };
+
+  // Auto-reset scanner after 2.5 seconds for faster scanning
+  useEffect(() => {
+    if (scanResult || error) {
+      const timer = setTimeout(() => {
+        resetScanner();
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [scanResult, error]);
 
   if (scanResult) {
     return (
