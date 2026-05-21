@@ -3,7 +3,7 @@ import { Scanner } from '@yudiel/react-qr-scanner';
 import axios from 'axios';
 import { ShieldAlert, ShieldCheck, UserCheck, XCircle, Scan, Fingerprint, Camera } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function App() {
   const [scanResult, setScanResult] = useState(null);
@@ -42,12 +42,12 @@ function App() {
     setIsScanning(true);
   };
 
-  // Auto-reset scanner after 2.5 seconds for faster scanning
+  // Auto-reset scanner after 0.2 seconds for faster scanning
   useEffect(() => {
     if (scanResult || error) {
       const timer = setTimeout(() => {
         resetScanner();
-      }, 2500);
+      }, 200);
       return () => clearTimeout(timer);
     }
   }, [scanResult, error]);
